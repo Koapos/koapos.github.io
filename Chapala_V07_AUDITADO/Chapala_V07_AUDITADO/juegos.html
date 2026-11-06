@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChapalaWare: juego de microjuegos rápidos con temática de la Carnicería Chapala. 10 rondas, 3 vidas y un jefe final. No guarda datos.">
+  <title>Juego: ChapalaWare – Carnicería Chapala</title>
+  <link rel="icon" href="img/logo-chapala.png" type="image/png">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera-interior">
+      <a class="marca" href="index.html">
+        <img src="img/logo-chapala.png" alt="" width="56" height="52">
+        <span>Carnicería Chapala</span>
+      </a>
+      <nav class="menu" aria-label="Menú principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="productos.html#simulador">Simulador</a></li>
+          <li><a href="juegos.html" aria-current="page">Juego</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+
+    <div class="banner">
+      <div class="contenedor">
+        <h1>ChapalaWare</h1>
+        <p>Microjuegos rápidos con la Carnicería Chapala: 10 rondas, 3 vidas y un jefe final.</p>
+      </div>
+    </div>
+
+    <section class="seccion" id="desafio" aria-labelledby="titulo-desafio">
+      <div class="contenedor">
+        <h2 id="titulo-desafio">¡A jugar!</h2>
+        <p class="aviso">
+          Juego educativo. No pide ni guarda datos personales ni resultados, y los precios
+          que aparecen son ilustrativos.
+        </p>
+
+        <noscript>
+          <p class="aviso">Para jugar es necesario activar JavaScript en el navegador.</p>
+        </noscript>
+
+        <div class="juego" id="juego-app">
+          <p class="solo-lectores" id="anuncio-juego" role="status" aria-live="polite"></p>
+
+          <!-- Marcador (se ve durante las rondas) -->
+          <div class="hud" id="hud" hidden>
+            <span id="hud-ronda">Ronda 1 de 10</span>
+            <span class="vidas" id="hud-vidas" role="img" aria-label="Vidas: 3 de 3">♥♥♥</span>
+            <span>Puntaje: <strong id="hud-puntaje">0</strong></span>
+            <button class="boton-sonido" id="btn-sonido" type="button" aria-pressed="true">Sonido: sí</button>
+          </div>
+
+          <!-- Pantalla de inicio -->
+          <div id="pantalla-inicio" class="pantalla-centro">
+            <h3>¡Bienvenido a ChapalaWare!</h3>
+            <p>
+              Son <strong>10 rondas</strong> y tenés <strong>3 vidas</strong>. Cada vez que fallás
+              un microjuego perdés una vida. En la ronda 10 te espera el jefe.
+            </p>
+            <ul class="lista-juegos">
+              <li><strong>¡Pesá!</strong> Tocá cuando la aguja marque el peso pedido.</li>
+              <li><strong>¡Atrapá!</strong> Tocá solo el producto pedido.</li>
+              <li><strong>¡Cobrá!</strong> Elegí el total correcto.</li>
+              <li><strong>¡Entregá!</strong> Tocá al cerdito para que llegue a la casa.</li>
+              <li><strong>¡Armá!</strong> Poné en la bolsa los productos de la lista.</li>
+              <li><strong>¡YUPI! (jefe)</strong> Derrotá al camarón: arrastrá al cerdito con el dedo,
+                  movelo con el mouse o usá las flechas o WASD.</li>
+            </ul>
+            <p class="opcion-tranquilo">
+              <input type="checkbox" id="modo-tranquilo">
+              <label for="modo-tranquilo">Modo tranquilo (más tiempo y todo más lento)</label>
+            </p>
+            <p class="opcion-tranquilo">
+              <input type="checkbox" id="sonido-activado" checked>
+              <label for="sonido-activado">Sonido (música de fondo)</label>
+            </p>
+            <p class="aviso" id="aviso-texturas" hidden></p>
+            <button class="boton boton-amarillo boton-grande" id="btn-comenzar" type="button">Comenzar</button>
+          </div>
+
+          <!-- Pantalla de consigna: la orden del microjuego -->
+          <div id="pantalla-consigna" class="pantalla-centro" hidden>
+            <p class="consigna-grande" id="consigna-titulo"></p>
+            <p class="consigna-subtitulo" id="consigna-subtitulo"></p>
+          </div>
+
+          <!-- Pantalla de microjuego -->
+           
+          <div id="pantalla-micro" class="escenario" hidden>
+            <p class="instruccion" id="instruccion"></p>
+            <div class="tiempo" aria-hidden="true">
+              <div class="tiempo-relleno" id="tiempo-relleno"></div>
+            </div>
+            <div class="zona-micro" id="zona-micro"></div>
+            <div class="resultado-juego" id="resultado-micro" hidden>
+              <p class="resultado-titulo"></p>
+              <p class="resultado-mensaje"></p>
+            </div>
+          </div>
+
+          <!-- Pantalla del jefe -->
+          <div id="pantalla-jefe" class="escenario" hidden>
+            <div class="barra-jefe">
+              <span id="jefe-vida-texto">Camarón: 500 / 500</span>
+              <div class="barra-jefe-fondo" aria-hidden="true">
+                <div class="barra-jefe-relleno" id="jefe-barra-relleno"></div>
+              </div>
+            </div>
+            <canvas id="lienzo-jefe" width="360" height="520" role="img"
+              aria-label="Pantalla del combate: el cerdito en un cohete contra el camarón"></canvas>
+            <p class="ayuda">
+              El cerdito dispara solo. Arrastre con el dedo, mueva el mouse o use las flechas / WASD
+              (Shift para ir más lento). Solo el punto blanco del centro puede recibir balas.
+            </p>
+            <div class="resultado-juego" id="resultado-jefe" hidden>
+              <p class="resultado-titulo"></p>
+              <p class="resultado-mensaje"></p>
+            </div>
+          </div>
+
+          <!-- Pantalla de victoria -->
+          <div id="pantalla-victoria" class="pantalla-centro" hidden>
+            <h3 id="victoria-titulo" tabindex="-1">¡Victoria!</h3>
+            <p>Entregaste todos los pedidos y derrotaste al camarón.</p>
+            <p class="resultado-puntaje" id="victoria-puntaje"></p>
+            <p id="victoria-detalle"></p>
+            <button class="boton boton-amarillo boton-grande" id="btn-volver-victoria" type="button">Volver a jugar</button>
+          </div>
+
+          <!-- Pantalla de derrota -->
+          <div id="pantalla-derrota" class="pantalla-centro" hidden>
+            <h3 id="derrota-titulo" tabindex="-1">¡Intentá de nuevo!</h3>
+            <p>Se terminaron las 3 vidas.</p>
+            <p class="resultado-puntaje" id="derrota-puntaje"></p>
+            <p id="derrota-detalle"></p>
+            <button class="boton boton-amarillo boton-grande" id="btn-volver-derrota" type="button">Volver a jugar</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-columnas">
+        <div>
+          <p class="pie-marca">
+            <img src="img/logo-chapala.png" alt="" width="60" height="56">
+            <span>Carnicería Chapala</span>
+          </p>
+          <p>Emprendimiento paraguayo presentado como proyecto escolar.</p>
+        </div>
+        <div>
+          <h2>Proyecto escolar</h2>
+          <ul>
+            <li>Feria de Informática 2026</li>
+            <li>1.º BTI – Grupo 2</li>
+            <li>Colegio Nacional de Villarrica</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Aviso</h2>
+          <p>Los precios son ilustrativos y están sujetos a confirmación. El simulador de compras es una simulación educativa: no vende, no cobra y no guarda datos.</p>
+          <p>Contacto y ubicación: pendientes de verificación.</p>
+        </div>
+      </div>
+      <p class="pie-final">Sitio de demostración escolar hecho con HTML5, CSS3 y JavaScript, sin frameworks.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+  <script src="js/juegos.js" defer></script>
+</body>
+</html>

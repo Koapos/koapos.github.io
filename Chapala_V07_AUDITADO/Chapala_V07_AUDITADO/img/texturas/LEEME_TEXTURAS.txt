@@ -1,0 +1,46 @@
+TEXTURAS DE CHAPALAWARE
+=======================
+
+Esta carpeta es para que el grupo coloque sus propias imágenes.
+No hace falta tocar el código: solo guardar cada imagen con EL NOMBRE EXACTO
+de la lista y volver a abrir juegos.html (recargar la página).
+
+Mientras falte una imagen, el juego muestra un recuadro amarillo con su nombre
+(o un círculo/barra de color en los casos pequeños).
+
+Para ver en la pantalla de inicio un aviso con la lista de las que todavía faltan,
+poner MOSTRAR_AVISO_TEXTURAS = true al comienzo de js/juegos.js. Al publicar el
+sitio hay que dejarlo en false (valor actual), para que el público no vea ese aviso.
+
+Consejos
+- Formato PNG con fondo transparente (se puede usar otra extensión si se
+  cambia el nombre en el arreglo TEXTURAS de js/juegos.js).
+- Los tamaños son sugerencias (en píxeles). Se pueden hacer más grandes con la
+  misma proporción para que se vean nítidas en pantallas de celular.
+- La imagen se ajusta a su caja SIN deformarse.
+- Si una imagen no se ve, revisar que el nombre esté en minúsculas, sin espacios
+  y con la extensión .png.
+
+LISTA
+-----
+cerdito.png          120 x 120   Mascota en ¡Entregá! (el cerdito que avanza).
+casa.png             140 x 140   Casa de la meta en ¡Entregá!.
+bolsa.png            220 x 220   Bolsa de ¡Armá!. Los productos aparecen sobre la parte de abajo.
+balanza.png          560 x 140   Fondo del medidor de ¡Pesá! (formato ancho). La aguja y los números se
+                                 dibujan encima; conviene dejar la escala de 0 a 3 kg sin números.
+aguja.png             24 x 140   Aguja de ¡Pesá! (alta y finita). Su centro marca el peso.
+cerdito-cohete.png    96 x 96    Cerdito sobre el cohete en el jefe ¡YUPI!. El punto débil (círculo blanco)
+                                 está en el centro de la imagen.
+camaron.png          200 x 140   Jefe: el camarón.
+bala-jamon.png        32 x 32    (OPCIONAL) Disparo del cerdito. Hoy se usa img/yupi-de-cerdo.png (la imagen del
+                                 Jamón porcino). Para usar una propia: guardarla acá y, en el objeto TEXTURAS
+                                 de js/juegos.js, escribir su ruta antes de la otra (hay un ejemplo en el comentario).
+bala-camaron.png      24 x 24    Disparo del camarón (redonda se ve mejor: la zona de golpe es un círculo).
+fondo-jefe.png       360 x 520   (OPCIONAL) Fondo del combate contra el camarón (vertical). Hoy se usa un degradado.
+                                 Para usar uno propio: guardarlo acá y poner su ruta en TEXTURAS (ver comentario).
+
+Las imágenes opcionales NO se piden al navegador si no están indicadas en el arreglo TEXTURAS:
+así no aparecen errores 404 en la consola.
+
+Las fotos de los seis productos (img/alitas.png, img/chorizo.png, etc.) NO están
+acá: son las de siempre, y se usan en ¡Atrapá!, ¡Cobrá! y ¡Armá!.
